@@ -136,6 +136,8 @@ def display_instances(idx, image, boxes, masks, class_ids, class_names,
     ax.axis('off')
     ax.set_title(title)
 
+    if N != 1:
+        return
     for i in range(N):
         masked_image = image.astype(np.uint32).copy()
         color = colors[i]
@@ -173,7 +175,7 @@ def display_instances(idx, image, boxes, masks, class_ids, class_names,
         # Mask
         mask = masks[:, :, i]
         if show_mask:
-            fname = "./out/" + str(idx) + "-" + str(i) + ".png"
+            fname = "./out/" + str(idx) + ".png"
             out = apply_mask(masked_image, mask, color)
             skimage.io.imsave(fname, out)
 

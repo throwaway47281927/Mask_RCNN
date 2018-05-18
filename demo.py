@@ -72,6 +72,9 @@ for root, dirnames, filenames in os.walk(IMAGE_DIR):
     for filename in filenames:
         if filename.endswith('.jpg'):
             image = skimage.io.imread(os.path.join(IMAGE_DIR, filename))
+            if os.path.isfile("./out/" + filename.replace(".jpg", ".png")):
+                print("skipping " + filename)
+                continue
             idx = int(filename.replace(".jpg", ""))
             print("idx=" + str(idx))
 
