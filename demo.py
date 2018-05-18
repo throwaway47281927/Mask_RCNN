@@ -68,11 +68,12 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'teddy bear', 'hair drier', 'toothbrush']
 
 # Load a random image from the images folder
-idx = 0
 for root, dirnames, filenames in os.walk(IMAGE_DIR):
     for filename in filenames:
-        if filename.endswith('.jpg') or filename.endswith('.JPG'):
+        if filename.endswith('.jpg'):
             image = skimage.io.imread(os.path.join(IMAGE_DIR, filename))
+            idx = int(filename.replace(".jpg", ""))
+            print("idx=" + str(idx))
 
             # Run detection
             results = model.detect([image], verbose=1)
@@ -81,4 +82,3 @@ for root, dirnames, filenames in os.walk(IMAGE_DIR):
             r = results[0]
             visualize.display_instances(idx, image, r['rois'], r['masks'], r['class_ids'],
                                         class_names, r['scores'])
-            idx = idx + 1
