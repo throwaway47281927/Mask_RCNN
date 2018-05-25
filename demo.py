@@ -67,21 +67,27 @@ class_names = ['BG', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
                'sink', 'refrigerator', 'book', 'clock', 'vase', 'scissors',
                'teddy bear', 'hair drier', 'toothbrush']
 
-# Load a random image from the images folder
+# names
+names = []
+indexes = []
 for root, dirnames, filenames in os.walk(IMAGE_DIR):
     for filename in filenames:
         if filename.endswith('.jpg'):
-            image = skimage.io.imread(os.path.join(IMAGE_DIR, filename))
             if os.path.isfile("./out/" + filename.replace(".jpg", ".png")):
                 print("skipping " + filename)
                 continue
             idx = int(filename.replace(".jpg", ""))
-            print("idx=" + str(idx))
+            indexes.append(idx)
+            names.append(filename)
+if len(names) == 0:
+    exit(1)
 
-            # Run detection
-            results = model.detect([image], verbose=1)
-
-            # Visualize results
-            r = results[0]
-            visualize.display_instances(idx, image, r['rois'], r['masks'], r['class_ids'],
-                                        class_names, r['scores'])
+# images
+for i in range((len(names))):
+    filename = names[i]
+    idx = indexes[i]
+    image = skimage.io.imread(os.path.join(IMAGE_DIR, filename))
+    results = model.detect([image], verbose=1)
+    r = results[0]
+    visualize.display_instances(idx, image, r['rois'], r['masks'], r['class_ids'],
+                                class_names, r['scores'])
